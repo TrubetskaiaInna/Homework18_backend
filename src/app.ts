@@ -1,8 +1,8 @@
 import express, {Request, Response, NextFunction} from "express";
-
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const users = require('../dist/routes/users');
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -15,7 +15,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     }
 });
 app.use(bodyParser.json({limit: '50mb'}));
-
+app.use('/', users);
 
 (async () => {
     try {
