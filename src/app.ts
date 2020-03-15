@@ -2,6 +2,7 @@ import express, {Request, Response, NextFunction} from "express";
 
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -13,21 +14,23 @@ app.use((req: Request, res: Response, next: NextFunction) => {
         next()
     }
 });
+app.use(bodyParser.json({limit: '50mb'}));
 
-async function start() {
+
+(async () => {
     try {
-        await mongoose.connect('mongodb+srv://inna:tim12345@cluster0-mrmak.mongodb.net/users',
+       await mongoose.connect('mongodb+srv://inna:tim12345@cluster0-mrmak.mongodb.net/users',
             {
                 useNewUrlParser: true,
-                useFindAndModify: false
+                useFindAndModify: false,
+                useUnifiedTopology: true
             });
+        console.log('successful connected!');
         app.listen(3000, function () {
-            console.log('server is listening on 3000 port')
+            console.log('server is listening on 3000 port!')
         });
 
     } catch (error) {
         console.log(error)
     }
-}
-
-start();
+})();
