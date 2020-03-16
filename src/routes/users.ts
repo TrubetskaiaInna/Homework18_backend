@@ -14,7 +14,7 @@ router.get('/users', async (request: Request, response: Response) => {
     });
 });
 
-router.get('/user/:id', async (request:Request, response:Response)=>{
+router.get('/user/:id', async (request: Request, response: Response) => {
     await User.findById(request.params.id, (err: string, user: UserInterface) => {
         if (err) {
             response.send(err);
@@ -41,5 +41,28 @@ router.post('/user', async (request: Request, response: Response) => {
             response.send(user);
         }
     });
+});
+
+router.delete('/user/:id', async (request: Request, response: Response) => {
+    await User.deleteOne({_id: request.params.id}, (err: string) => {
+        if (err) {
+            response.send(err);
+        } else {
+            response.sendStatus(200);
+        }
+    });
+});
+
+router.put('/user/:id', async (request: Request, response: Response) => {
+    const id = request.params.id;
+    await User.findByIdAndUpdate(id, request.body,
+        (err: string) => {
+            if (err) {
+                response.send(err);
+            } else {
+                response.sendStatus(200);
+            }
+        }
+    );
 });
 module.exports = router;
