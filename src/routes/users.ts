@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/users', async (request: Request, response: Response) => {
     await User.find((err: string, users: UserInterface) => {
         if (err) {
-            response.send("Error");
+            response.send(err);
         } else {
             response.send(users);
         }
